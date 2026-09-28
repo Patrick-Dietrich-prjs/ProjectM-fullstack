@@ -1,0 +1,138 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* Wrapper do componente */
+.todo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Container principal */
+.container {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 12px;
+  padding: 28px 24px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Título */
+.container h1 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Área de input */
+.input-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.input-box input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input-box input:focus {
+  border-color: var(--accent);
+}
+
+.input-box input::placeholder {
+  color: var(--text);
+}
+
+.input-box button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans);
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.input-box button:hover {
+  opacity: 0.9;
+}
+
+/* Lista de tarefas */
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  transition: background-color 0.15s ease;
+}
+
+.todo-item:hover {
+  background: var(--accent-bg);
+}
+
+.todo-item span {
+  flex: 1;
+  line-height: 1.4;
+  word-break: break-word;
+  padding-right: 12px;
+  color: var(--text-h);
+}
+
+.todo-item .delete-btn {
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  line-height: 1;
+  color: var(--text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.todo-item .delete-btn:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}

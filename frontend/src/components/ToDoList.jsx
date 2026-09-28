@@ -10,7 +10,7 @@ function ToDoList(){
     }
 
     function addToDo(){
-        if(newToDo.trim() !== ""){
+        if(!newToDo.trim()){
             setToDo(t => [...t, newToDo])
             setNewToDo("")
         }        
@@ -22,24 +22,27 @@ function ToDoList(){
     }
 
     return(<>
-        <div className='container'>
-            <h1>ToDo List</h1>
-            <div className='input-box'>
-                <input
-                    type='text'
-                    value={newToDo}
-                    placeholder='Insira nova tarefa...'
-                    onChange={handleInputChange}/>
-                <button onClick={addToDo}>Salvar</button>
+        <div className='todo-wrapper'>
+            <div className='container'>
+                <h1>ToDo List</h1>
+                <div className='input-box'>
+                    <input
+                        type='text'
+                        value={newToDo}
+                        placeholder='Insira nova tarefa...'
+                        onChange={handleInputChange}/>
+                    <button onClick={addToDo}>Salvar</button>
+                </div>
+                <ol className='todo-list'>
+                    {toDo.map((toDo, index) => 
+                                <li key={index} className='todo-item'>
+                                    <span>{toDo}</span>
+                                    <button className='delete-btn' onClick={() => deleteToDo(index)}>🗑</button>
+                                </li>)}
+                </ol>
             </div>
-            <ol>
-                {toDo.map((toDo, index) => 
-                            <li key={index}>
-                                <span>{toDo}</span>
-                                <button onClick={() => deleteToDo(index)}>🗑</button>
-                            </li>)}
-            </ol>
         </div>
+        
     </>)
 }
 
