@@ -4,6 +4,7 @@ import com.patrick.toDo_backend.model.ToDo;
 import com.patrick.toDo_backend.repository.ToDoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,16 +20,17 @@ public class ToDoService {
         return toDoRepository.findAll();
     }
 
-    public Optional<ToDo> findById(Integer id){
+    public Optional<ToDo> findById(Long id){
         return toDoRepository.findById(id);
     }
 
+    @Transactional
     public ToDo save(ToDo toDo){
-        toDo.setCriado_em(LocalDate.now());
         return toDoRepository.save(toDo);
     }
 
-    public boolean deleteById(Integer id){
+    @Transactional
+    public boolean deleteById(Long id){
         if(toDoRepository.existsById(id)){
             toDoRepository.deleteById(id);
             return true;
@@ -36,13 +38,12 @@ public class ToDoService {
         return false;
     }
 
-    public Optional<ToDo> update(Integer id, ToDo descricao){
-        Optional<ToDo> exists = toDoRepository.findById(id);
-        if(exists.isPresent()){
-            ToDo update = exists.get();
-            update.setDescricao(descricao.getDescricao());
-            return Optional.of(toDoRepository.save(update));
-        }
-        return Optional.empty();
+    @Transactional
+    public Optional<ToDo> update(Long id, ToDo dados) {
+        return toDoRepository.findById(id)
+                .map(todo -> {
+                    todo.setDescricao(dados.getDescricao());
+                    return toDoRepository.save(todo);
+                });
     }
 }
