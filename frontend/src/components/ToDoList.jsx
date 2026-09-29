@@ -6,7 +6,6 @@ function ToDoList(){
     const [toDos, setToDos] = useState([])
     const [loading, setLoading] = useState(true)
     const [descricao, setDescricao] = useState("")
-    const [concluido, setConcluido] = useState(false)
 
     useEffect(() => {
         fetchToDos()
@@ -71,8 +70,13 @@ function ToDoList(){
                         {toDos.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
                         {toDos.map(toDo => 
                                     <li key={toDo.id} className='todo-item'>
-                                        <input type='checkbox'
-                                               onClick={() => handleUpdateStatus(toDo.id)}></input>
+                                        {toDo.concluido ? <input type='checkbox'
+                                            className="todo-checkbox"
+                                            onClick={() => handleUpdateStatus(toDo.id)} checked>
+                                        </input> : <input type='checkbox'
+                                            className="todo-checkbox"
+                                            onClick={() => handleUpdateStatus(toDo.id)} >
+                                        </input>}                                        
                                         <span>{toDo.descricao}</span>
                                         <button className='delete-btn' onClick={() => handleRemove(toDo.id)}>🗑</button>
                                     </li>)}

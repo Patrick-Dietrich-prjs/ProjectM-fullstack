@@ -113,6 +113,8 @@ body {
 }
 
 .todo-item span {
+  text-align: left;
+  margin-left: 10px;
   flex: 1;
   line-height: 1.4;
   word-break: break-word;
@@ -135,4 +137,62 @@ body {
 .todo-item .delete-btn:hover {
   background: var(--accent-bg);
   color: var(--accent);
+}
+
+.todo-item .update-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 1;
+  font-size: 1rem;
+  color: var(--text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.todo-item .update-btn:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* Checkbox customizado */
+.todo-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--bg);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.todo-checkbox:hover {
+  border-color: var(--accent);
+}
+
+.todo-checkbox:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.todo-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.todo-checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-bg);
 }
