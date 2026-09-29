@@ -39,6 +39,15 @@ public class ToDoService {
     }
 
     @Transactional
+    public Optional<ToDo> updateStatus(Long id){
+        return toDoRepository.findById(id)
+                .map(toDo -> {
+                    toDo.setConcluido(!toDo.getConcluido());
+                    return toDoRepository.save(toDo);
+                });
+    }
+
+    @Transactional
     public Optional<ToDo> update(Long id, ToDo dados) {
         return toDoRepository.findById(id)
                 .map(todo -> {

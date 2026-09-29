@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { getAll, save, remove} from '../services/ToDoService'
+import { getAll, save, remove, updateStatus } from '../services/ToDoService'
 
 function ToDoList(){
 
     const [toDos, setToDos] = useState([])
     const [loading, setLoading] = useState(true)
     const [descricao, setDescricao] = useState("")
+    const [concluido, setConcluido] = useState(false)
 
     useEffect(() => {
         fetchToDos()
@@ -24,7 +25,7 @@ function ToDoList(){
 
     function handleCreate(){
         if(!descricao.trim()) return
-        const toDo = { descricao }
+        const toDo = { descricao, concluido: false }
         save(toDo)
             .then(() => {
                 setDescricao("")
@@ -40,6 +41,14 @@ function ToDoList(){
             .then(() => fetchToDos())
             .catch(error => {
                 console.error("Erro ao remover tarefa: " + error)
+            })
+    }
+
+    function handleUpdateStatus(id){
+        updateStatus(id)
+            .then(() => fetchToDos())
+            .catch(error => {
+                console.error("Erro ao atualizar status da tarefa: " + error)
             })
     }
 
@@ -62,6 +71,8 @@ function ToDoList(){
                         {toDos.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
                         {toDos.map(toDo => 
                                     <li key={toDo.id} className='todo-item'>
+                                        <input type='checkbox'
+                                               onClick={() => handleUpdateStatus(toDo.id)}></input>
                                         <span>{toDo.descricao}</span>
                                         <button className='delete-btn' onClick={() => handleRemove(toDo.id)}>🗑</button>
                                     </li>)}

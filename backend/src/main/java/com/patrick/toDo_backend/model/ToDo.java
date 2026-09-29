@@ -16,11 +16,14 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "criado_em")
+    private LocalDate criadoEm;
+
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @Column(name = "criado_em")
-    private LocalDate criadoEm;
+    @Column(name = "concluido")
+    private Boolean concluido;
 
     @PrePersist
     public void prePersist() {

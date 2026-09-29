@@ -45,12 +45,21 @@ public class ToDoController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}/concluido")
+    public ResponseEntity<ToDo> updateStatus(@PathVariable Long id){
+        Optional<ToDo> updated = toDoService.updateStatus(id);
+        if(updated.isPresent()){
+            return ResponseEntity.ok(updated.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    /* @PutMapping("/{id}")
     public ResponseEntity<ToDo> update(@PathVariable Long id, @RequestBody ToDo descricao){
         Optional<ToDo> updated = toDoService.update(id, descricao);
         if(updated.isPresent()){
             return ResponseEntity.ok(updated.get());
         }
         return ResponseEntity.notFound().build();
-    }
+    } */
 }
