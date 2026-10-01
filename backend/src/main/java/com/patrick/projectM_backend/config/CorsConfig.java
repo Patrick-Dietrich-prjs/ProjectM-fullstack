@@ -1,4 +1,4 @@
-package com.patrick.toDo_backend.config;
+package com.patrick.projectM_backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

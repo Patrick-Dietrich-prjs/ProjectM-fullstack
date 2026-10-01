@@ -1,4 +1,4 @@
-package com.patrick.toDo_backend.model;
+package com.patrick.projectM_backend.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,10 +7,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "todo")
+@Table(name = "projeto_partes")
 @Getter
 @Setter
-public class ToDo {
+public class ParteProjeto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

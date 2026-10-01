@@ -1,13 +1,13 @@
-package com.patrick.toDo_backend;
+package com.patrick.projectM_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ToDoBackendApplication {
+public class ProjectMBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ToDoBackendApplication.class, args);
+		SpringApplication.run(ProjectMBackendApplication.class, args);
 	}
 
 }
