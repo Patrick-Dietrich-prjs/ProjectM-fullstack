@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react'
-import { getAll, save, remove, update, updateStatus, updateEditando } from '../services/ToDoService'
+import { getAll, save, remove, update, updateStatus, updateEditando } from '../services/ParteProjetoService'
+import ParteProjeto from './ParteProjeto.jsx'
 
-function ToDoList(){
+function Projeto(){
 
-    const [toDos, setToDos] = useState([])
+    const [partesProjeto, setPartesProjeto] = useState([])
     const [loading, setLoading] = useState(true)
     const [descricao, setDescricao] = useState("")
     const [descricaoUpdate, setDescricaoUpdate] = useState("")
 
     useEffect(() => {
-        fetchToDos()
+        fetchpartesProjeto()
     }, [])
 
-    function fetchToDos(){
+    function fetchpartesProjeto(){
         getAll()
             .then(response => {
-                setToDos(response.data)
+                setPartesProjeto(response.data)
                 setLoading(false)
             })
             .catch(error => {
@@ -25,11 +26,11 @@ function ToDoList(){
 
     function handleCreate(){
         if(!descricao.trim()) return
-        const toDo = { descricao, concluido: false, editando: false }
-        save(toDo)
+        const parteProjeto = { descricao, concluido: false, editando: false }
+        save(parteProjeto)
             .then(() => {
                 setDescricao("")
-                fetchToDos()
+                fetchpartesProjeto()
             })
             .catch(error => {
                 console.error("Erro ao criar tarefa: " + error)
@@ -38,7 +39,7 @@ function ToDoList(){
 
     function handleRemove(id){
         remove(id)
-            .then(() => fetchToDos())
+            .then(() => fetchpartesProjeto())
             .catch(error => {
                 console.error("Erro ao remover tarefa: " + error)
             })
@@ -46,21 +47,21 @@ function ToDoList(){
 
     function handleUpdateStatus(id){
         updateStatus(id)
-            .then(() => fetchToDos())
+            .then(() => fetchpartesProjeto())
             .catch(error => {
                 console.error("Erro ao atualizar status da tarefa: " + error)
             })
     }
 
     function handleUpdateEditando(id){
-        const toDo = toDos.find(t => t.id === id)
+        const parteProjeto = partesProjeto.find(t => t.id === id)
 
-        if(toDo) {
-            setDescricaoUpdate(toDo.descricao)
+        if(parteProjeto) {
+            setDescricaoUpdate(parteProjeto.descricao)
         }
 
         updateEditando(id)
-            .then(() => fetchToDos())
+            .then(() => fetchpartesProjeto())
             .catch(error => {
                 console.error("Erro ao entrar em modo de edição: " + error)
             })
@@ -69,7 +70,7 @@ function ToDoList(){
     function handleUpdate(id){
         if (!descricaoUpdate.trim()) return
 
-        const dadosAtuais = toDos.find(toDo => toDo.id === id)
+        const dadosAtuais = partesProjeto.find(parteProjeto => parteProjeto.id === id)
 
         const dadosUpdate = {...dadosAtuais, descricao: descricaoUpdate}
 
@@ -79,7 +80,7 @@ function ToDoList(){
             })
             .then(() => {
                 setDescricaoUpdate("")
-                fetchToDos()
+                fetchpartesProjeto()
             })
             .catch(error => {
                 console.error("Erro ao atualizar status da tarefa: " + error)
@@ -90,9 +91,9 @@ function ToDoList(){
         return <div>Carregando...</div>
     } else {
         return(<>
-            <div className='todo-wrapper'>
+            <div className='parteProjeto-wrapper'>
                 <div className='container'>
-                    <h1>ToDo List</h1>
+                    <h1>Projeto</h1>
 
                     <div className='input-box'>
                         <input
@@ -103,49 +104,49 @@ function ToDoList(){
                         <button onClick={handleCreate}>Salvar</button>
                     </div>
 
-                    <ol className='todo-list'>
-                        {toDos.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
+                    <ol className='parteProjeto-list'>
+                        {partesProjeto.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
 
-                        {toDos.map(toDo => (toDo.editando ? 
+                        {partesProjeto.map(parteProjeto => (parteProjeto.editando ? 
 
-                            (<li key={toDo.id} className='todo-item'>
-                                        {toDo.concluido ?
+                            (<li key={parteProjeto.id} className='parteProjeto-item'>
+                                        {parteProjeto.concluido ?
                                             (<input type='checkbox'
-                                                    className="todo-checkbox"
-                                                    onClick={() => handleUpdateStatus(toDo.id)} defaultChecked>
+                                                    className="parteProjeto-checkbox"
+                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} defaultChecked>
                                             </input>) : 
                                             (<input type='checkbox'
-                                                    className="todo-checkbox"
-                                                    onClick={() => handleUpdateStatus(toDo.id)} >
+                                                    className="parteProjeto-checkbox"
+                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} >
                                             </input>)}
                                         
                                         <div className='edit-box'>
                                             <input className='update-input-box' type='text' value={descricaoUpdate} onChange={e => setDescricaoUpdate(e.target.value)}></input>
 
-                                            <button className='update-btn' onClick={() => handleUpdate(toDo.id)}>Salvar</button>
+                                            <button className='update-btn' onClick={() => handleUpdate(parteProjeto.id)}>Salvar</button>
                                         </div>                                        
 
-                                        <button className='delete-btn' onClick={() => handleRemove(toDo.id)}>🗑</button>
+                                        <button className='delete-btn' onClick={() => handleRemove(parteProjeto.id)}>🗑</button>
 
-                                        <button className='edit-btn' onClick={() => handleUpdateEditando(toDo.id)}>✏️</button>
+                                        <button className='edit-btn' onClick={() => handleUpdateEditando(parteProjeto.id)}>✏️</button>
                                     </li>) :
                             
-                            (<li key={toDo.id} className='todo-item'>
-                                        {toDo.concluido ?
+                            (<li key={parteProjeto.id} className='parteProjeto-item'>
+                                        {parteProjeto.concluido ?
                                             (<input type='checkbox'
-                                                    className="todo-checkbox"
-                                                    onClick={() => handleUpdateStatus(toDo.id)} defaultChecked>
+                                                    className="parteProjeto-checkbox"
+                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} defaultChecked>
                                             </input>) : 
                                             (<input type='checkbox'
-                                                    className="todo-checkbox"
-                                                    onClick={() => handleUpdateStatus(toDo.id)} >
+                                                    className="parteProjeto-checkbox"
+                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} >
                                             </input>)}
 
-                                        <span>{toDo.descricao}</span>
+                                        <span>{parteProjeto.descricao}</span>
 
-                                        <button className='delete-btn' onClick={() => handleRemove(toDo.id)}>🗑</button>
+                                        <button className='delete-btn' onClick={() => handleRemove(parteProjeto.id)}>🗑</button>
 
-                                        <button className='edit-btn' onClick={() => handleUpdateEditando(toDo.id)}>✏️</button>
+                                        <button className='edit-btn' onClick={() => handleUpdateEditando(parteProjeto.id)}>✏️</button>
                                     </li>)
                                 )
                             )
@@ -157,4 +158,4 @@ function ToDoList(){
     }
 }
 
-export default ToDoList
+export default Projeto

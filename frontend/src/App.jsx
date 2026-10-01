@@ -1,10 +1,10 @@
-import ToDoList from './components/ToDoList'
+import Projeto from './components/Projeto.jsx'
 import './App.css'
 
 function App() {
 
   return (
-    <ToDoList />
+    <Projeto />
   )
 }
 

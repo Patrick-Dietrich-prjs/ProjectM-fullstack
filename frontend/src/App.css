@@ -17,7 +17,7 @@ body {
 }
 
 /* Wrapper do componente */
-.todo-wrapper {
+.parteProjeto-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,14 +90,14 @@ body {
 }
 
 /* Lista de tarefas */
-.todo-list {
+.parteProjeto-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.todo-item {
+.parteProjeto-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,11 +108,11 @@ body {
   transition: background-color 0.15s ease;
 }
 
-.todo-item:hover {
+.parteProjeto-item:hover {
   background: var(--accent-bg);
 }
 
-.todo-item span {
+.parteProjeto-item span {
   text-align: left;
   margin-left: 10px;
   flex: 1;
@@ -122,7 +122,7 @@ body {
   color: var(--text-h);
 }
 
-.todo-item .delete-btn {
+.parteProjeto-item .delete-btn {
   font-size: 1.5em;
   background: none;
   border: none;
@@ -134,12 +134,12 @@ body {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.todo-item .delete-btn:hover {
+.parteProjeto-item .delete-btn:hover {
   background: var(--accent-bg);
   color: var(--accent);
 }
 
-.todo-item .update-btn {
+.parteProjeto-item .update-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -151,13 +151,13 @@ body {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.todo-item .update-btn:hover {
+.parteProjeto-item .update-btn:hover {
   background: var(--accent-bg);
   color: var(--accent);
 }
 
 /* Checkbox customizado */
-.todo-checkbox {
+.parteProjeto-checkbox {
   appearance: none;
   -webkit-appearance: none;
   width: 18px;
@@ -171,16 +171,16 @@ body {
   transition: all 0.2s ease;
 }
 
-.todo-checkbox:hover {
+.parteProjeto-checkbox:hover {
   border-color: var(--accent);
 }
 
-.todo-checkbox:checked {
+.parteProjeto-checkbox:checked {
   background-color: var(--accent);
   border-color: var(--accent);
 }
 
-.todo-checkbox:checked::after {
+.parteProjeto-checkbox:checked::after {
   content: '';
   position: absolute;
   left: 5px;
@@ -192,12 +192,12 @@ body {
   transform: rotate(45deg);
 }
 
-.todo-checkbox:focus {
+.parteProjeto-checkbox:focus {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-bg);
 }
 
-.todo-item .edit-btn {
+.parteProjeto-item .edit-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -209,7 +209,7 @@ body {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.todo-item .update-btn:hover {
+.parteProjeto-item .update-btn:hover {
   background: var(--accent-bg);
   color: var(--accent);
 }
@@ -242,7 +242,7 @@ body {
 }
 
 /* Botão Salvar da edição */
-.todo-item .update-btn {
+.parteProjeto-item .update-btn {
   padding: 8px 14px;
   border: none;
   border-radius: 8px;
@@ -256,6 +256,6 @@ body {
   white-space: nowrap;
 }
 
-.todo-item .update-btn:hover {
+.parteProjeto-item .update-btn:hover {
   opacity: 0.9;
 }
