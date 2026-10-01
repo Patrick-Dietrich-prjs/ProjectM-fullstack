@@ -48,10 +48,19 @@ public class ToDoService {
     }
 
     @Transactional
-    public Optional<ToDo> update(Long id, ToDo dados) {
+    public Optional<ToDo> updateEditando(Long id){
+        return toDoRepository.findById(id)
+                .map(toDo -> {
+                    toDo.setEditando(!toDo.getEditando());
+                    return toDoRepository.save(toDo);
+                });
+    }
+
+    @Transactional
+    public Optional<ToDo> update(Long id, ToDo dadosUpdate) {
         return toDoRepository.findById(id)
                 .map(todo -> {
-                    todo.setDescricao(dados.getDescricao());
+                    todo.setDescricao(dadosUpdate.getDescricao());
                     return toDoRepository.save(todo);
                 });
     }

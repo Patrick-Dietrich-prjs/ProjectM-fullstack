@@ -25,6 +25,9 @@ public class ToDo {
     @Column(name = "concluido")
     private Boolean concluido;
 
+    @Column(name = "editando")
+    private Boolean editando;
+
     @PrePersist
     public void prePersist() {
         if (this.criadoEm == null) {

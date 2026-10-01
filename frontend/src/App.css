@@ -196,3 +196,66 @@ body {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-bg);
 }
+
+.todo-item .edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 1;
+  font-size: 1rem;
+  color: var(--text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.todo-item .update-btn:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+/* modo de edição */
+.edit-box {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+  margin-left: 10px;
+}
+
+/* Input de edição */
+.update-input-box {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.update-input-box:focus {
+  border-color: var(--accent);
+}
+
+/* Botão Salvar da edição */
+.todo-item .update-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.todo-item .update-btn:hover {
+  opacity: 0.9;
+}
