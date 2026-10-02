@@ -44,8 +44,8 @@ public class ProjetoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Projeto> update(@PathVariable Long id, @RequestBody Projeto projeto){
-        Optional<Projeto> updated = ProjetoService.update(id, projeto);
+    public ResponseEntity<Projeto> update(@PathVariable Long id, @RequestBody Projeto projetoUpdate){
+        Optional<Projeto> updated = ProjetoService.update(id, projetoUpdate);
         if(updated.isPresent()){
             return ResponseEntity.ok(updated.get());
         }
