@@ -107,50 +107,16 @@ function Projeto(){
                     <ol className='parteProjeto-list'>
                         {partesProjeto.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
 
-                        {partesProjeto.map(parteProjeto => (parteProjeto.editando ? 
-
-                            (<li key={parteProjeto.id} className='parteProjeto-item'>
-                                        {parteProjeto.concluido ?
-                                            (<input type='checkbox'
-                                                    className="parteProjeto-checkbox"
-                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} defaultChecked>
-                                            </input>) : 
-                                            (<input type='checkbox'
-                                                    className="parteProjeto-checkbox"
-                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} >
-                                            </input>)}
-                                        
-                                        <div className='edit-box'>
-                                            <input className='update-input-box' type='text' value={descricaoUpdate} onChange={e => setDescricaoUpdate(e.target.value)}></input>
-
-                                            <button className='update-btn' onClick={() => handleUpdate(parteProjeto.id)}>Salvar</button>
-                                        </div>                                        
-
-                                        <button className='delete-btn' onClick={() => handleRemove(parteProjeto.id)}>🗑</button>
-
-                                        <button className='edit-btn' onClick={() => handleUpdateEditando(parteProjeto.id)}>✏️</button>
-                                    </li>) :
-                            
-                            (<li key={parteProjeto.id} className='parteProjeto-item'>
-                                        {parteProjeto.concluido ?
-                                            (<input type='checkbox'
-                                                    className="parteProjeto-checkbox"
-                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} defaultChecked>
-                                            </input>) : 
-                                            (<input type='checkbox'
-                                                    className="parteProjeto-checkbox"
-                                                    onClick={() => handleUpdateStatus(parteProjeto.id)} >
-                                            </input>)}
-
-                                        <span>{parteProjeto.descricao}</span>
-
-                                        <button className='delete-btn' onClick={() => handleRemove(parteProjeto.id)}>🗑</button>
-
-                                        <button className='edit-btn' onClick={() => handleUpdateEditando(parteProjeto.id)}>✏️</button>
-                                    </li>)
-                                )
-                            )
-                        }
+                        {partesProjeto.map(parteProjeto => (
+                            <ParteProjeto 
+                                parteProjeto={parteProjeto}
+                                handleUpdateStatus={handleUpdateStatus}
+                                handleRemove={handleRemove}
+                                handleUpdateEditando={handleUpdateEditando}
+                                handleUpdate={handleUpdate}
+                                setDescricaoUpdate={setDescricaoUpdate}
+                                descricaoUpdate={descricaoUpdate}
+                            />))}
                     </ol>
                 </div>
             </div>
