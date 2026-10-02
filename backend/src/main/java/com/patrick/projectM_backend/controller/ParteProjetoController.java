@@ -23,9 +23,9 @@ public class ParteProjetoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ParteProjeto> findById(@PathVariable Long id){
-        Optional<ParteProjeto> toDo = parteProjetoService.findById(id);
-        if(toDo.isPresent()){
-            return ResponseEntity.ok(toDo.get());
+        Optional<ParteProjeto> parteProjeto = parteProjetoService.findById(id);
+        if(parteProjeto.isPresent()){
+            return ResponseEntity.ok(parteProjeto.get());
         }
         return ResponseEntity.notFound().build();
     }
