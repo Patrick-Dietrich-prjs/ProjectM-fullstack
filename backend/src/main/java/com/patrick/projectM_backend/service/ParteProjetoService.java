@@ -1,7 +1,9 @@
 package com.patrick.projectM_backend.service;
 
 import com.patrick.projectM_backend.model.ParteProjeto;
+import com.patrick.projectM_backend.model.Projeto;
 import com.patrick.projectM_backend.repository.ParteProjetoRepository;
+import com.patrick.projectM_backend.repository.ProjetoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,9 @@ public class ParteProjetoService {
     @Autowired
     private ParteProjetoRepository parteProjetoRepository;
 
+    @Autowired
+    private ProjetoRepository projetoRepository;
+
     public List<ParteProjeto> findAll() {
         return parteProjetoRepository.findAll();
     }
@@ -25,6 +30,11 @@ public class ParteProjetoService {
 
     @Transactional
     public ParteProjeto save(ParteProjeto parteProjeto){
+        if (parteProjeto.getProjeto() != null && parteProjeto.getProjeto().getId() != null) {
+            Projeto projeto = projetoRepository.findById(parteProjeto.getProjeto().getId())
+                    .orElseThrow(() -> new RuntimeException("Projeto não encontrado"));
+            parteProjeto.setProjeto(projeto);
+        }
         return parteProjetoRepository.save(parteProjeto);
     }
 

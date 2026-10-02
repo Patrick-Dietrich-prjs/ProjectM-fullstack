@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { getAll, save, remove, update, updateStatus, updateEditando } from '../services/ParteProjetoService'
-import ParteProjeto from './ParteProjeto.jsx'
+import ParteProjeto from '../components/ParteProjeto.jsx'
 
-function Projeto(){
+function Projeto({ projeto }){
 
     const [partesProjeto, setPartesProjeto] = useState([])
     const [loading, setLoading] = useState(true)
@@ -26,7 +26,7 @@ function Projeto(){
 
     function handleCreate(){
         if(!descricao.trim()) return
-        const parteProjeto = { descricao, concluido: false, editando: false }
+        const parteProjeto = { projeto, descricao, concluido: false, editando: false }
         save(parteProjeto)
             .then(() => {
                 setDescricao("")
@@ -93,7 +93,7 @@ function Projeto(){
         return(<>
             <div className='parteProjeto-wrapper'>
                 <div className='container'>
-                    <h1>Projeto</h1>
+                    <h1>{projeto.nomeProjeto}</h1>
 
                     <div className='input-box'>
                         <input
@@ -104,11 +104,12 @@ function Projeto(){
                         <button onClick={handleCreate}>Salvar</button>
                     </div>
 
-                    <ol className='parteProjeto-list'>
+                    <ol className='parteProjeto-list'>                       
                         {partesProjeto.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
 
                         {partesProjeto.map(parteProjeto => (
                             <ParteProjeto 
+                                key={parteProjeto.id}
                                 parteProjeto={parteProjeto}
                                 handleUpdateStatus={handleUpdateStatus}
                                 handleRemove={handleRemove}

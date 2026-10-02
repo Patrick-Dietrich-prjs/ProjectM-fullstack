@@ -19,6 +19,10 @@ public class ParteProjeto {
     @Column(name = "criado_em")
     private LocalDate criadoEm;
 
+    @ManyToOne
+    @JoinColumn(name = "id_projeto")
+    private Projeto projeto;
+
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
