@@ -1,23 +1,27 @@
-# Fullstack ToDo App v0.1.1
+# ProjectM - Gerenciador de Projetos v0.2.0
 
-API REST desenvolvida em Java com Spring Boot, responsável por toda a lógica de negócio e persistência de dados do aplicativo.
+Aplicação fullstack para gerenciar projetos e suas tarefas (partes). Backend em Java/Spring Boot e frontend em React + Vite.
 
 ## Stack
 
-| Camada | Tecnologia |
-|---|---|
-| Linguagem | Java 21 |
-| Framework | Spring Boot 3 |
-| ORM | Hibernate 6 / JPA |
-| Banco de dados | MySQL 8 |
-| Gerenciador de dependências | Maven |
-| IDE | IntelliJ IDEA Community |
+| Camada                      | Tecnologia              |
+| --------------------------- | ----------------------- |
+| Linguagem (backend)         | Java 21                 |
+| Framework (backend)         | Spring Boot 3           |
+| ORM                         | Hibernate 6 / JPA       |
+| Banco de dados              | MySQL 8                 |
+| Gerenciador de dependências | Maven                   |
+| Frontend                    | React + Vite            |
+| Roteamento                  | React Router DOM        |
+| HTTP Client                 | Axios                   |
+| IDE                         | IntelliJ IDEA Community |
 
 ## Pré-requisitos
 
 - Java 21 instalado
+- Node.js 18+ instalado
 - MySQL 8 rodando localmente
-- Maven (embutido no IntelliJ)
+- Maven (embutido no IntelliJ ou `./mvnw`)
 
 ## Como rodar localmente
 
@@ -26,26 +30,25 @@ API REST desenvolvida em Java com Spring Boot, responsável por toda a lógica d
 git clone <url-do-repositorio>
 
 # 2. Configure as credenciais do banco em:
-src/main/resources/application.properties
+# src/main/resources/application.properties
 
-# 3. Rode o projeto pelo IntelliJ ou via terminal:
+# 3. Rode o backend
 ./mvnw spring-boot:run
-```
 
-A API sobe em: `http://localhost:8080`
+# 4. Rode o frontend
+cd frontend
+npm install
+npm run dev
+```
 
 ## Configuração do banco
 
-Crie o banco de dados antes de rodar o projeto:
-
 ```sql
-CREATE DATABASE toDo;
+CREATE DATABASE todo;
 ```
 
-Arquivo `application.properties`:
-
 ```properties
-spring.application.name=toDo-backend
+spring.application.name=projectM-backend
 
 spring.datasource.url=jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
 spring.datasource.username=root
@@ -57,56 +60,97 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 spring.jpa.open-in-view=false
-
-logging.level.org.hibernate.SQL=DEBUG
-logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
 ```
 
 ## Estrutura de pastas Backend
 
 ```
-src/main/java/com/patrick/toDo_backend/
-├── config/         → configuração de CORS
-├── model/          → entidades JPA e enums
-├── repository/     → interfaces de acesso ao banco
-├── service/        → lógica de negócio
-└── controller/     → endpoints REST
+src/main/java/com/patrick/projectM_backend/
+├── config/       → configuração de CORS
+├── model/        → entidades JPA (Projeto, ParteProjeto)
+├── repository/   → interfaces Spring Data JPA
+├── service/      → regras de negócio
+└── controller/   → endpoints REST
 ```
+
 ## Estrutura de pastas Frontend
 
 ```
-toDo-fullstack\frontend\src
-├── assets/      → Imagens pré carregadas do React + Vite
-├── components/  → Componente renderizado na aplicação
-├── pages/       → Vazia(Uso futuro)
-└── services/    → API
+src/
+├── assets/       → imagens e estáticos
+├── components/   → MainProjetos, ParteProjeto
+├── pages/        → PaginaMainProjetos, PaginaProjeto
+├── services/     → ProjetoService, ParteProjetoService, api.js
+├── App.jsx       → rotas (React Router)
+├── App.css       → estilos dos componentes
+└── index.css     → variáveis de tema e estilos globais
 ```
 
 ## Entidades
 
-| Entidade | Tabela | Descrição |
-|---|---|---|
-| `ToDo` | `toDo` | Lista de afazeres do usuário |
+| Entidade       | Tabela           | Descrição                                    |
+| -------------- | ---------------- | -------------------------------------------- |
+| `Projeto`      | `projeto`        | Projeto do usuário (nome, editando)          |
+| `ParteProjeto` | `projeto_partes` | Tarefa/parte ligada a um projeto (ManyToOne) |
+
+### Relacionamento
+
+```
+Projeto 1 ─────── * ParteProjeto
+         id_projeto (FK)
+```
 
 ## Endpoints principais
 
-| Método | URL | Descrição |
-|---|---|---|
-| GET | `/api/todo` | Lista todos os afazeres |
-| POST | `/api/todo` | Cria um afazer |
-| PUT | `/api/todo/{id}` | Atualiza um afazer |
-| DELETE | `/api/todo/{id}` | Remove um afazer |
+### Projetos — `/api/projeto`
+
+| Método | URL                          | Descrição              |
+| ------ | ---------------------------- | ---------------------- |
+| GET    | `/api/projeto`               | Lista todos os projetos|
+| GET    | `/api/projeto/{id}`          | Busca projeto por id   |
+| POST   | `/api/projeto`               | Cria um projeto        |
+| PUT    | `/api/projeto/{id}`          | Atualiza um projeto    |
+| DELETE | `/api/projeto/{id}`          | Remove um projeto      |
+| PATCH  | `/api/projeto/{id}/editando` | Alterna modo de edição |
+
+### Partes do projeto — `/api/parteprojeto`
+
+| Método | URL                                     | Descrição                    |
+| ------ | --------------------------------------- | ---------------------------- |
+| GET    | `/api/parteprojeto`                     | Lista todas as partes        |
+| GET    | `/api/parteprojeto/{id}`                | Busca parte por id           |
+| GET    | `/api/parteprojeto/projeto/{projetoId}` | Lista partes de um projeto   |
+| POST   | `/api/parteprojeto`                     | Cria uma parte               |
+| PUT    | `/api/parteprojeto/{id}`                | Atualiza uma parte           |
+| DELETE | `/api/parteprojeto/{id}`                | Remove uma parte             |
+| PATCH  | `/api/parteprojeto/{id}/concluido`      | Alterna status concluído     |
+| PATCH  | `/api/parteprojeto/{id}/editando`       | Alterna modo de edição       |
+
+## Rotas do frontend
+
+| Rota           | Página               | Descrição                         |
+| -------------- | -------------------- | --------------------------------- |
+| `/`            | `PaginaMainProjetos` | Lista de projetos + criar projeto |
+| `/projeto/:id` | `PaginaProjeto`      | Detalhe do projeto e suas tarefas |
+
+## Fluxo da aplicação
+
+1. Usuário cria/visualiza projetos na página inicial
+2. Ao clicar em um card, navega para `/projeto/{id}`
+3. Na página do projeto, gerencia as partes (tarefas): criar, editar, concluir, excluir
+4. Botão "Voltar" retorna à lista de projetos
 
 ## Documentação
 
-| Arquivo | Conteúdo |
-|---|---|
-| [docs/arquitetura.md](docs/arquitetura.md) | Visão geral das camadas e decisões técnicas |
-| [docs/banco-de-dados.md](docs/banco-de-dados.md) | Modelagem das tabelas e relacionamentos |
-| [docs/endpoints.md](docs/endpoints.md) | Lista completa dos endpoints da API |
-| [docs/decisoes.md](docs/componentes.md) | Registro dos componentes técnicos do projeto |
-| [docs/decisoes.md](docs/telas.md) | Registro das telas do projeto |
+| Arquivo                                          | Conteúdo                                    |
+| ------------------------------------------------ | ------------------------------------------- |
+| [docs/arquitetura.md](docs/arquitetura.md)       | Visão geral das camadas e decisões técnicas |
+| [docs/banco-de-dados.md](docs/banco-de-dados.md) | Modelagem das tabelas e relacionamentos     |
+| [docs/endpoints.md](docs/endpoints.md)           | Lista completa dos endpoints da API         |
+| [docs/componentes.md](docs/componentes.md)       | Componentes do frontend                     |
+| [docs/telas.md](docs/telas.md)                   | Telas do projeto                            |
 
 ## Status do projeto
 
-Em andamento - fase inicial
+Em andamento — gestão de projetos e partes funcionando (CRUD + navegação entre telas).
+```
