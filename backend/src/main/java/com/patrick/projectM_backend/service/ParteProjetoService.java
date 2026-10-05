@@ -20,12 +20,19 @@ public class ParteProjetoService {
     @Autowired
     private ProjetoRepository projetoRepository;
 
+    @Transactional(readOnly = true)
     public List<ParteProjeto> findAll() {
         return parteProjetoRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<ParteProjeto> findById(Long id){
         return parteProjetoRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ParteProjeto> findByProjetoId(Long projetoId) {
+        return parteProjetoRepository.findByProjetoId(projetoId);
     }
 
     @Transactional
@@ -73,4 +80,5 @@ public class ParteProjetoService {
                     return parteProjetoRepository.save(parteprojeto);
                 });
     }
+
 }

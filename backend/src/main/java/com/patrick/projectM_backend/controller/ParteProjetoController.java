@@ -30,6 +30,11 @@ public class ParteProjetoController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/projeto/{projetoId}")
+    public List<ParteProjeto> findByProjetoId(@PathVariable Long projetoId) {
+        return parteProjetoService.findByProjetoId(projetoId);
+    }
+
     @PostMapping
     public ResponseEntity<ParteProjeto> save(@RequestBody ParteProjeto parteprojeto){
         ParteProjeto parteProjeto = parteProjetoService.save(parteprojeto);
