@@ -27,7 +27,7 @@ Aplicação fullstack para gerenciar projetos e suas tarefas (partes). Backend e
 
 ```bash
 # 1. Clone o repositório
-git clone <url-do-repositorio>
+git clone https://github.com/Patrick-Dietrich-prjs/ProjectM-fullstack
 
 # 2. Configure as credenciais do banco em:
 # src/main/resources/application.properties
@@ -44,15 +44,15 @@ npm run dev
 ## Configuração do banco
 
 ```sql
-CREATE DATABASE todo;
+CREATE DATABASE projectm;
 ```
 
 ```properties
 spring.application.name=projectM-backend
 
-spring.datasource.url=jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.url=jdbc:mysql://localhost:3306/projectm?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
 spring.datasource.username=root
-spring.datasource.password=root
+spring.datasource.password=<SUA_SENHA>
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 spring.jpa.hibernate.ddl-auto=update
