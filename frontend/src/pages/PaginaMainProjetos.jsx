@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { getAll, getById, save, remove, update, updateEditando } from '../services/ProjetoService.js'
-import PaginaProjeto from './PaginaProjeto.jsx'
 import MainProjetos from '../components/MainProjetos.jsx'
 
 function PaginaMainProjetos(){
     const [projetos, setProjetos] = useState([])
     const [loading, setLoading] = useState(true)
     const [nomeProjeto, setNomeProjeto] = useState("")
-    const [nomeProjetoUpdate, setNomeProjetoUpdate] = useState("")
-    const navigate = useNavigate()
+    const [nomeProjetoUpdate, setNomeProjetoUpdate] = useState("")    
 
     useEffect(() => {
         fetchProjetos()
@@ -108,7 +105,6 @@ function PaginaMainProjetos(){
                         handleUpdate={handleUpdate}
                         nomeProjetoUpdate={nomeProjetoUpdate}
                         setNomeProjetoUpdate={setNomeProjetoUpdate}
-                        onClick={() => navigate('')}
                         />
                     ))}
                 </div>

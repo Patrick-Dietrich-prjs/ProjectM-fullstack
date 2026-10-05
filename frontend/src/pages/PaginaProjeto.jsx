@@ -1,129 +1,153 @@
 import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { getById } from '../services/ProjetoService.js'
 import { getByProjetoId, save, remove, update, updateStatus, updateEditando } from '../services/ParteProjetoService.js'
 import ParteProjeto from '../components/ParteProjeto.jsx'
 
-function PaginaProjeto({ projeto }){
-
+function PaginaProjeto() {
+    const [projeto, setProjeto] = useState(null)
     const [partesProjeto, setPartesProjeto] = useState([])
     const [loading, setLoading] = useState(true)
-    const [descricao, setDescricao] = useState("")
-    const [descricaoUpdate, setDescricaoUpdate] = useState("")
-    
+    const [descricao, setDescricao] = useState('')
+    const [descricaoUpdate, setDescricaoUpdate] = useState('')
+    const { id } = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        fetchpartesProjeto()
-    }, [])
+        if (!id) return
 
-    function fetchpartesProjeto(){
-        getByProjetoId(projeto.id)
-            .then(response => {
-                setPartesProjeto(response.data)
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error("Erro ao buscar tarefas: " + error)
-            })
+        setLoading(true)
+
+        getById(id)
+        .then(response => {
+            setProjeto(response.data)
+            return getByProjetoId(id)
+        })
+        .then(response => {
+            setPartesProjeto(response.data)
+            setLoading(false)
+        })
+        .catch(error => {
+            console.error('Erro ao carregar projeto: ' + error)
+            setLoading(false)
+        })
+    }, [id])
+
+    function fetchPartesProjeto() {
+        getByProjetoId(id)
+        .then(response => {
+            setPartesProjeto(response.data)
+        })
+        .catch(error => {
+            console.error('Erro ao buscar tarefas: ' + error)
+        })
     }
 
-    function handleCreate(){
-        if(!descricao.trim()) return
-        const parteProjeto = { projeto, descricao, concluido: false, editando: false }
+    function handleCreate() {
+        if (!descricao.trim() || !projeto) return
+
+        const parteProjeto = { projeto, descricao, concluido: false, editando: false}
+
         save(parteProjeto)
-            .then(() => {
-                setDescricao("")
-                fetchpartesProjeto()
-            })
-            .catch(error => {
-                console.error("Erro ao criar tarefa: " + error)
-            })
+        .then(() => {
+            setDescricao('')
+            fetchPartesProjeto()
+        })
+        .catch(error => {
+            console.error('Erro ao criar tarefa: ' + error)
+        })
     }
 
-    function handleRemove(id){
-        remove(id)
-            .then(() => fetchpartesProjeto())
-            .catch(error => {
-                console.error("Erro ao remover tarefa: " + error)
-            })
+    function handleRemove(parteId) {
+        remove(parteId)
+        .then(() => fetchPartesProjeto())
+        .catch(error => {
+            console.error('Erro ao remover tarefa: ' + error)
+        })
     }
 
-    function handleUpdateStatus(id){
-        updateStatus(id)
-            .then(() => fetchpartesProjeto())
-            .catch(error => {
-                console.error("Erro ao atualizar status da tarefa: " + error)
-            })
+    function handleUpdateStatus(parteId) {
+        updateStatus(parteId)
+        .then(() => fetchPartesProjeto())
+        .catch(error => {
+            console.error('Erro ao atualizar status: ' + error)
+        })
     }
 
-    function handleUpdateEditando(id){
-        const parteProjeto = partesProjeto.find(p => p.id === id)
-
-        if(parteProjeto) {
-            setDescricaoUpdate(parteProjeto.descricao)
+    function handleUpdateEditando(parteId) {
+        const parte = partesProjeto.find(p => p.id === parteId)
+        if (parte) {
+        setDescricaoUpdate(parte.descricao)
         }
 
-        updateEditando(id)
-            .then(() => fetchpartesProjeto())
-            .catch(error => {
-                console.error("Erro ao entrar em modo de edição: " + error)
-            })
+        updateEditando(parteId)
+        .then(() => fetchPartesProjeto())
+        .catch(error => {
+            console.error('Erro ao entrar em modo de edição: ' + error)
+        })
     }
 
-    function handleUpdate(id){
+    function handleUpdate(parteId) {
         if (!descricaoUpdate.trim()) return
 
-        const dadosAtuais = partesProjeto.find(parteProjeto => parteProjeto.id === id)
+        const dadosAtuais = partesProjeto.find(p => p.id === parteId)
+        const dadosUpdate = { ...dadosAtuais, descricao: descricaoUpdate }
 
-        const dadosUpdate = {...dadosAtuais, descricao: descricaoUpdate}
-
-        update(id, dadosUpdate)
-            .then(() => {
-                return updateEditando(id)
-            })
-            .then(() => {
-                setDescricaoUpdate("")
-                fetchpartesProjeto()
-            })
-            .catch(error => {
-                console.error("Erro ao atualizar a tarefa: " + error)
-            })
+        update(parteId, dadosUpdate)
+        .then(() => updateEditando(parteId))
+        .then(() => {
+            setDescricaoUpdate('')
+            fetchPartesProjeto()
+        })
+        .catch(error => {
+            console.error('Erro ao atualizar a tarefa: ' + error)
+        })
     }
 
-    if(loading) {
-        return <div>Carregando...</div>
-    } else {
-        return(<>
-            <div className='parteProjeto-wrapper'>
-                <div className='container'>
-                    <h1>{projeto.nomeProjeto}</h1>
+    if (loading || !projeto) {
+        return <div className="loading-message">Carregando...</div>
+    }
 
-                    <div className='input-box'>
-                        <input
-                            type='text'
-                            value={descricao}
-                            placeholder='Insira nova tarefa...'
-                            onChange={e => (setDescricao(e.target.value))}/>
-                        <button onClick={handleCreate}>+</button>
-                    </div>
+    return (
+        <div className="parteProjeto-wrapper">
+            <div className="container">
+                <button className="update-btn" onClick={() => navigate('/')}>
+                ← Voltar
+                </button>
 
-                    <ol className='parteProjeto-list'>                       
-                        {partesProjeto.length === 0 && (<p>Nenhuma tarefa cadastrada.</p>)}
+                <h1>{projeto.nomeProjeto}</h1>
 
-                        {partesProjeto.map(parteProjeto => (
-                            <ParteProjeto 
-                                key={parteProjeto.id}
-                                parteProjeto={parteProjeto}
-                                handleUpdateStatus={handleUpdateStatus}
-                                handleRemove={handleRemove}
-                                handleUpdateEditando={handleUpdateEditando}
-                                handleUpdate={handleUpdate}
-                                setDescricaoUpdate={setDescricaoUpdate}
-                                descricaoUpdate={descricaoUpdate}
-                            />))}
-                    </ol>
+                <div className="input-box">
+                    <input
+                        type="text"
+                        value={descricao}
+                        placeholder="Insira nova tarefa..."
+                        onChange={e => setDescricao(e.target.value)}
+                    />
+                    <button onClick={handleCreate}>+</button>
                 </div>
+
+                <ol className="parteProjeto-list">
+                    {partesProjeto.length === 0 && (
+                        <p className="empty-message">Nenhuma tarefa cadastrada.</p>
+                    )}
+
+                    {partesProjeto.map(parteProjeto => (
+                        <ParteProjeto
+                        key={parteProjeto.id}
+                        parteProjeto={parteProjeto}
+                        handleUpdateStatus={handleUpdateStatus}
+                        handleRemove={handleRemove}
+                        handleUpdateEditando={handleUpdateEditando}
+                        handleUpdate={handleUpdate}
+                        setDescricaoUpdate={setDescricaoUpdate}
+                        descricaoUpdate={descricaoUpdate}
+                        />
+                    ))}
+                </ol>
             </div>
-        </>)
-    }
+        </div>
+    )
 }
 
 export default PaginaProjeto
