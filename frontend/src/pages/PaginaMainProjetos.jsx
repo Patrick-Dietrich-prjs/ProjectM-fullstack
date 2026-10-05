@@ -49,7 +49,7 @@ function PaginaMainProjetos(){
             .then(response => {
                 const projeto = response.data
                 setNomeProjetoUpdate(projeto.nomeProjeto)
-            })       
+            })
 
         updateEditando(id)
             .then(() => fetchProjetos())

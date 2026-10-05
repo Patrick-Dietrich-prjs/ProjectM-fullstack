@@ -6,7 +6,7 @@ function MainProjetos({ mainProjeto, handleRemove, handleUpdateEditando, handleU
 
     if (mainProjeto.editando) {
         return (
-            <div className="projeto-card">
+            <div className="projeto-card projeto-card--editing">
                 <div className="edit-box">
                 <input
                     className="update-input-box"
@@ -22,7 +22,7 @@ function MainProjetos({ mainProjeto, handleRemove, handleUpdateEditando, handleU
                 </button>
                 </div>
 
-                <div className="projeto-card-actions">
+                <div className="projeto-card-actions" onClick={e => e.stopPropagation()}>
                 <button
                     className="delete-btn"
                     onClick={() => handleRemove(mainProjeto.id)}
@@ -44,7 +44,7 @@ function MainProjetos({ mainProjeto, handleRemove, handleUpdateEditando, handleU
         <div className="projeto-card" onClick={() => navigate(`/projeto/${mainProjeto.id}`)}>
             <h2 className="projeto-card-title">{mainProjeto.nomeProjeto}</h2>
 
-            <div className="projeto-card-actions">
+            <div className="projeto-card-actions" onClick={e => e.stopPropagation()}>
                 <button
                 className="delete-btn"
                 onClick={() => handleRemove(mainProjeto.id)}

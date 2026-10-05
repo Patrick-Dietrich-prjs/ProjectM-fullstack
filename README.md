@@ -1,4 +1,4 @@
-# ProjectM - Gerenciador de Projetos v0.5.0
+# ProjectM - Gerenciador de Projetos v0.5.1
 
 Aplicação fullstack para gerenciar projetos e suas tarefas (partes). Backend em Java/Spring Boot e frontend em React + Vite.
 

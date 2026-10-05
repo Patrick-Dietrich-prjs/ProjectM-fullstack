@@ -136,6 +136,36 @@ body {
   margin-top: auto;
 }
 
+.projeto-card--editing {
+  gap: 12px;
+}
+
+.projeto-card--editing .edit-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* No modo edição */
+.projeto-card--editing .update-input-box {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+}
+
+.projeto-card--editing .update-btn {
+  width: 100%;
+  padding: 10px 14px;
+}
+
+.projeto-card--editing .projeto-card-actions {
+  justify-content: flex-end;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
 /* =========================
    CONTAINER DE PARTES
 ========================= */
