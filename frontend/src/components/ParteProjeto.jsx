@@ -1,5 +1,3 @@
-
-
 function ParteProjeto({ parteProjeto, handleRemove, handleUpdateStatus, handleUpdateEditando, handleUpdate, descricaoUpdate, setDescricaoUpdate}){
     
     return(<> 
@@ -20,7 +18,7 @@ function ParteProjeto({ parteProjeto, handleRemove, handleUpdateStatus, handleUp
                         <input className='update-input-box' type='text' value={descricaoUpdate} onChange={e => setDescricaoUpdate(e.target.value)}></input>
 
                         <button className='update-btn' onClick={() => handleUpdate(parteProjeto.id)}>Salvar</button>
-                    </div>                                        
+                    </div>
 
                     <button className='delete-btn' onClick={() => handleRemove(parteProjeto.id)}>🗑</button>
 

@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react'
-import { getAll, save, remove, update, updateStatus, updateEditando } from '../services/ParteProjetoService'
+import { getByProjetoId, save, remove, update, updateStatus, updateEditando } from '../services/ParteProjetoService.js'
 import ParteProjeto from '../components/ParteProjeto.jsx'
 
-function Projeto({ projeto }){
+function PaginaProjeto({ projeto }){
 
     const [partesProjeto, setPartesProjeto] = useState([])
     const [loading, setLoading] = useState(true)
     const [descricao, setDescricao] = useState("")
     const [descricaoUpdate, setDescricaoUpdate] = useState("")
+    
 
     useEffect(() => {
         fetchpartesProjeto()
     }, [])
 
     function fetchpartesProjeto(){
-        getAll()
+        getByProjetoId(projeto.id)
             .then(response => {
                 setPartesProjeto(response.data)
                 setLoading(false)
@@ -54,7 +55,7 @@ function Projeto({ projeto }){
     }
 
     function handleUpdateEditando(id){
-        const parteProjeto = partesProjeto.find(t => t.id === id)
+        const parteProjeto = partesProjeto.find(p => p.id === id)
 
         if(parteProjeto) {
             setDescricaoUpdate(parteProjeto.descricao)
@@ -83,7 +84,7 @@ function Projeto({ projeto }){
                 fetchpartesProjeto()
             })
             .catch(error => {
-                console.error("Erro ao atualizar status da tarefa: " + error)
+                console.error("Erro ao atualizar a tarefa: " + error)
             })
     }
 
@@ -101,7 +102,7 @@ function Projeto({ projeto }){
                             value={descricao}
                             placeholder='Insira nova tarefa...'
                             onChange={e => (setDescricao(e.target.value))}/>
-                        <button onClick={handleCreate}>Salvar</button>
+                        <button onClick={handleCreate}>+</button>
                     </div>
 
                     <ol className='parteProjeto-list'>                       
@@ -125,4 +126,4 @@ function Projeto({ projeto }){
     }
 }
 
-export default Projeto
+export default PaginaProjeto
