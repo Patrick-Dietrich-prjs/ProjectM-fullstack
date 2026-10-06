@@ -27,7 +27,7 @@ Aplicação fullstack para gerenciar projetos e suas tarefas (partes). Backend e
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/Patrick-Dietrich-prjs/ProjectM-fullstack
+git clone github.com/Patrick-Dietrich-prjs/ProjectM-fullstack
 
 # 2. Configure as credenciais do banco em:
 # src/main/resources/application.properties
