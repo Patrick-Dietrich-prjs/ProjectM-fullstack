@@ -22,33 +22,43 @@ MySQL
 
 ### Controller
 - Recebe as requisições HTTP do frontend React
-- Valida os dados de entrada (DTO)
+- Expõe os endpoints REST de `Projeto` e `ParteProjeto`
 - Chama o Service correspondente
-- Devolve a resposta em JSON
+- Devolve a resposta em JSON (`ResponseEntity` quando aplicável)
 
 ### Service
-- Contém toda a lógica de negócio do app
-- Chama o Repository para buscar ou salvar dados
+- Contém a lógica de negócio (criar, atualizar, alternar status, modo edição)
+- Usa `@Transactional` nas operações de escrita
+- Chama o Repository para persistir ou consultar dados
+- No save de `ParteProjeto`, associa o `Projeto` pelo id antes de gravar
 
 ### Repository
 - Interface que herda de `JpaRepository`
 - Spring Data JPA gera as queries automaticamente
-- Queries personalizadas ficam aqui quando necessário
+- Exemplo de query derivada: `findByProjetoId(Long projetoId)`
 
 ### Model (Entidade)
 - Classes Java anotadas com `@Entity`
-- Mapeadas diretamente para tabelas do MySQL via Hibernate
-- Contêm apenas atributos e getters/setters
-
-### DTO (Data Transfer Object)
-- Objetos usados para receber dados do frontend (Request)
-- Objetos usados para enviar dados ao frontend (Response)
-- Evitam expor a entidade diretamente na API
+- Mapeadas para tabelas do MySQL via Hibernate
+- Relacionamento: `ParteProjeto` → `@ManyToOne` → `Projeto`
 
 ---
 
 ## Entidades principais
 
-| Entidade | Tabela | Descrição |
-|---|---|---|
-| `ToDo` | `toDo` | Lista de afazeres do usuário |
+| Entidade       | Tabela           | Descrição                                      |
+| --------------- | ---------------- | ---------------------------------------------- |
+| `Projeto`       | `projeto`        | Projeto do usuário (nome, flag editando)       |
+| `ParteProjeto`  | `projeto_partes` | Tarefa/parte ligada a um projeto (ManyToOne)   |
+
+---
+
+## Frontend (visão rápida)
+
+```
+App (React Router)
+ ├── /                → PaginaMainProjetos (lista de projetos)
+ └── /projeto/:id     → PaginaProjeto (partes + barra de progresso)
+```
+
+O frontend consome a API via Axios (`src/services/`).
