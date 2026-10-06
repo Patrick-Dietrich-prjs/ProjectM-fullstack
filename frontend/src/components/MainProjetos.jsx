@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import BarraProgresso from './BarraProgresso.jsx'
 
 function MainProjetos({ mainProjeto, handleRemove, handleUpdateEditando, handleUpdate, nomeProjetoUpdate, setNomeProjetoUpdate }){
 
@@ -43,6 +44,10 @@ function MainProjetos({ mainProjeto, handleRemove, handleUpdateEditando, handleU
     return (
         <div className="projeto-card" onClick={() => navigate(`/projeto/${mainProjeto.id}`)}>
             <h2 className="projeto-card-title">{mainProjeto.nomeProjeto}</h2>
+
+            <BarraProgresso 
+                projeto={mainProjeto}
+            />
 
             <div className="projeto-card-actions" onClick={e => e.stopPropagation()}>
                 <button

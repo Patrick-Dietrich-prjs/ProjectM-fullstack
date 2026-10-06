@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getById } from '../services/ProjetoService.js'
 import { getByProjetoId, save, remove, update, updateStatus, updateEditando } from '../services/ParteProjetoService.js'
 import ParteProjeto from '../components/ParteProjeto.jsx'
+import BarraProgresso from '../components/BarraProgresso.jsx'
 
 function PaginaProjeto() {
     const [projeto, setProjeto] = useState(null)
@@ -126,6 +127,11 @@ function PaginaProjeto() {
                     />
                     <button onClick={handleCreate}>+</button>
                 </div>
+
+                <BarraProgresso 
+                    key={partesProjeto.map(p => p.id + '-' + p.concluido).join(',')}
+                    projeto={projeto}
+                />
 
                 <ol className="parteProjeto-list">
                     {partesProjeto.length === 0 && (
